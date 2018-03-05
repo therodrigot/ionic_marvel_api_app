@@ -1,0 +1,22 @@
+<!--
+  Generated template for the CharacterDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="charData">{{charData.name}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content  *ngIf="charData">
+  <img class="char-img" [src]="thumb" />
+  <div padding>
+    <div class="char-title">{{charData.name}}</div>
+    <div class="char-descr">{{charData.description}}</div>
+    <div class="char-series"></div>
+  </div>
+</ion-content>

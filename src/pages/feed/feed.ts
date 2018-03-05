@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+// import { XkcdProvider } from '../../providers/xkcd/xkcd';
+import { MarvelProvider } from '../../providers/marvel/marvel';
+import { CharacterDetailPage } from '../character-detail/character-detail';
 
 /**
  * Generated class for the FeedPage page.
@@ -15,30 +18,49 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class FeedPage {
 	debugger;
-
-	public feedData={
-		cards:
-			[{
-				"title":"Header2",
-				"descr":'1The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.'
-			},
-			{
-				"title":"Header3",
-				"descr":'2The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.'
-			},
-			{
-				"title":"Header3",
-				"descr":'3The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.'
-			}],
-		}
-
-	constructor(public navCtrl: NavController, public navParams: NavParams) {
-		var card=[0,1,2,3,4];
-
+	public listCharacters=new Array();
+	
+	constructor(
+		public navCtrl: NavController, 
+		public navParams: NavParams, 
+		private marvelprovider:MarvelProvider) {
 	}
 
-	ionViewDidLoad() {
+	private page:number=0;
+	private _loadCharacters(nextPage?:boolean): any {
+		if(nextPage)
+			this.page++;
+
+		// console.log('_loadCharacters',this.page);
+
+		var promise = new Promise((resolve, reject) => {
+			this.marvelprovider.getCharacters(this.page).subscribe(
+				data => {
+					console.log(data);
+					this.listCharacters = this.listCharacters.concat(data.data.results);
+					resolve(this.listCharacters);
+				}
+			)
+		})
+		return promise;
+	}
+
+	public openDetails(char){
+		console.log(char);
+		this.navCtrl.push(CharacterDetailPage, { id: char.id });
+	}
+
+	public doInfinite(infiniteScroll) {
+		// console.log('doInfinite',this.page);
+		this._loadCharacters(true).then(function(){
+			infiniteScroll.complete()
+			// console.log("infiniteScroll.complete()")
+		})
+	}
+
+	public ionViewDidLoad() {
 		console.log('ionViewDidLoad FeedPage');
+		this._loadCharacters()
 	}
 
 }

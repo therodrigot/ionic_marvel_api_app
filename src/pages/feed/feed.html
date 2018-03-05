@@ -12,19 +12,26 @@
 
 </ion-header>
 
+<ion-content class="card-background-page">
 
-<ion-content padding>
-
-<ion-card *ngFor="let card of feedData.cards">
-	<ion-card-header>
-		<!-- {{ console.log('here') }} -->
-		{{card.title}}
-	</ion-card-header>
-	<ion-card-content>
-		{{ card.descr }}
-	</ion-card-content>
+<ion-card *ngFor="let character of listCharacters" (click)="openDetails(character)">
+	<img [src]="character.thumbnail.path + '/landscape_amazing.' + character.thumbnail.extension" />
+	<div class="card-title">{{character.name}}</div>
+	<!-- <div class="card-subtitle">41 Listings</div> -->
 </ion-card>
 
+<!-- <ion-card *ngFor="let character of listCharacters">
+	<img [src]="character.thumbnail.path + '/landscape_amazing.' + character.thumbnail.extension" />
+	<ion-card-header>
+		{{character.name}}
+	</ion-card-header>
+	<ion-card-content>
+		{{ character.description }}
+	</ion-card-content>
+</ion-card> -->
 
+<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+	<ion-infinite-scroll-content></ion-infinite-scroll-content>
+</ion-infinite-scroll>
 
 </ion-content>

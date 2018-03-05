@@ -11,6 +11,10 @@ import { FeedPage } from '../pages/feed/feed';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MarvelProvider } from '../providers/marvel/marvel';
+import { FeedPageModule } from '../pages/feed/feed.module';
+import { CharacterDetailPageModule } from '../pages/character-detail/character-detail.module';
 
 @NgModule({
 	declarations: [
@@ -19,11 +23,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 		ContactPage,
 		HomePage,
 		TabsPage,
-		FeedPage
+		// FeedPage,
 	],
 	imports: [
 		BrowserModule,
-		IonicModule.forRoot(MyApp)
+		HttpClientModule,
+		IonicModule.forRoot(MyApp),
+		FeedPageModule,
+		CharacterDetailPageModule,
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -32,12 +39,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 		ContactPage,
 		HomePage,
 		TabsPage,
-		FeedPage
+		// FeedPage, 
 	],
 	providers: [
 		StatusBar,
 		SplashScreen,
-	{ provide: ErrorHandler, useClass: IonicErrorHandler }
+		MarvelProvider,
+		{ provide: ErrorHandler, useClass: IonicErrorHandler },
 	]
 })
-export class AppModule { }
+export class AppModule { 
+}
